@@ -35,18 +35,22 @@ jobs:
 
     - name: Build Docker Image
       run: |
+        echo "Building Docker Image..."
         docker build -t $MODULE_FULLNAME $MODULE_NAME
 
     - name: Tag Docker Image
       run: |
+        echo "Tagging Docker Image..."
         docker tag $MODULE_FULLNAME:$TAG \
           $REGISTRY_URL/$MODULE_FULLNAME:$TAG
 
     - name: Login to ECR
       run: |
+        echo "Logging in to ECR..."
         aws ecr get-login-password --region $AWS_REGION | \
           docker login --username AWS --password-stdin $REGISTRY_URL
 
     - name: Push Docker Image to ECR
       run: |
+        echo "Pushing Docker Image to ECR..."
         docker push $REGISTRY_URL/$MODULE_FULLNAME:$TAG
